@@ -1,0 +1,4 @@
+com\simulator\engine\RulesEngineServiceTest.class
+com\simulator\api\TransactionControllerIT.class
+com\simulator\logging\PanMaskingUtilTest.class
+com\simulator\iso\IsoMessageBuilderTest.class
