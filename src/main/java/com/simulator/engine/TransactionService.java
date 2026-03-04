@@ -22,7 +22,8 @@ import java.util.UUID;
 
 /**
  * Core transaction processing service.
- * Orchestrates: ISO message build → rules engine → response build → log persist.
+ * Orchestrates: ISO message build → rules engine → response build → log
+ * persist.
  */
 @Service
 public class TransactionService {
@@ -36,10 +37,10 @@ public class TransactionService {
     private final TransactionLogRepository txLogRepo;
 
     public TransactionService(IsoMessageBuilder isoBuilder,
-                              RulesEngineService rulesEngine,
-                              VisaLikeService visaLikeService,
-                              SimulationProfileRepository profileRepo,
-                              TransactionLogRepository txLogRepo) {
+            RulesEngineService rulesEngine,
+            VisaLikeService visaLikeService,
+            SimulationProfileRepository profileRepo,
+            TransactionLogRepository txLogRepo) {
         this.isoBuilder = isoBuilder;
         this.rulesEngine = rulesEngine;
         this.visaLikeService = visaLikeService;
@@ -53,7 +54,8 @@ public class TransactionService {
     public TransactionResponse process(TransactionRequest request) throws ISOException, InterruptedException {
         long startTime = System.currentTimeMillis();
         String correlationId = MDC.get("correlationId");
-        if (correlationId == null) correlationId = UUID.randomUUID().toString();
+        if (correlationId == null)
+            correlationId = UUID.randomUUID().toString();
 
         String txType = request.getType().toUpperCase();
         String maskedPan = PanMaskingUtil.mask(request.getPan());
@@ -79,12 +81,16 @@ public class TransactionService {
                     request.getPan(), request.getAmount(), request.getExpiry(),
                     request.getTerminalId(), request.getMerchantId(),
                     request.getStan(), request.getRrn(), request.getCurrency(),
+                    request.getAmountSettlement(), request.getAmountCardholderBilling(),
+                    request.getMerchantType(),
                     request.isVisaLike());
         } else {
             requestMsg = isoBuilder.buildAuthorizationRequest(
                     request.getPan(), processingCode, request.getAmount(),
                     request.getExpiry(), request.getTerminalId(), request.getMerchantId(),
                     request.getStan(), request.getRrn(), request.getCurrency(),
+                    request.getAmountSettlement(), request.getAmountCardholderBilling(),
+                    request.getMerchantType(),
                     request.isVisaLike());
         }
 
@@ -182,20 +188,20 @@ public class TransactionService {
     private String mapProcessingCode(String txType) {
         return switch (txType) {
             case "AUTHORIZE" -> IsoFieldConstants.PC_PURCHASE;
-            case "REFUND"    -> IsoFieldConstants.PC_REFUND;
-            case "CANCEL"    -> IsoFieldConstants.PC_VOID;
-            case "REVERSAL"  -> IsoFieldConstants.PC_PURCHASE;
-            default          -> IsoFieldConstants.PC_PURCHASE;
+            case "REFUND" -> IsoFieldConstants.PC_REFUND;
+            case "CANCEL" -> IsoFieldConstants.PC_VOID;
+            case "REVERSAL" -> IsoFieldConstants.PC_PURCHASE;
+            default -> IsoFieldConstants.PC_PURCHASE;
         };
     }
 
     private TransactionLog buildTxLog(TransactionRequest request, String txType,
-                                       String requestMti, String responseMti,
-                                       String maskedPan, String responseCode39,
-                                       RuleEvaluationResult ruleResult,
-                                       Map<String, String> reqFields, Map<String, String> respFields,
-                                       String requestHex, String responseHex,
-                                       long duration, String correlationId) {
+            String requestMti, String responseMti,
+            String maskedPan, String responseCode39,
+            RuleEvaluationResult ruleResult,
+            Map<String, String> reqFields, Map<String, String> respFields,
+            String requestHex, String responseHex,
+            long duration, String correlationId) {
         TransactionLog txLog = new TransactionLog();
         txLog.setType(txType);
         txLog.setVisaLike(request.isVisaLike());

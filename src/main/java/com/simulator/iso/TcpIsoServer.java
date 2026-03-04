@@ -105,6 +105,15 @@ public class TcpIsoServer implements CommandLineRunner {
 
                     log.info("TCP Received MTI={} PAN={} amount={} terminal={}", mti, maskedPan, amount, terminalId);
 
+                    // Validate mandatory fields DE5, DE6, DE18
+                    if (!request.hasField(AMOUNT_SETTLEMENT) || !request.hasField(AMOUNT_CARDHOLDER_BILL)
+                            || !request.hasField(MERCHANT_TYPE)) {
+                        log.warn("TCP Rejected: missing mandatory fields (DE5/DE6/DE18) for MTI={}", mti);
+                        ISOMsg errorResponse = isoBuilder.buildResponse(request, "30", false);
+                        channel.send(errorResponse);
+                        continue;
+                    }
+
                     // Evaluate rules
                     RuleEvaluationResult result = rulesEngine.evaluate(pan, expiry, amount, terminalId, null);
 

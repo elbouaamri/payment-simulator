@@ -8,11 +8,14 @@
 | 2 | PAN | LLNUM | 19 | Primary Account Number |
 | 3 | Processing Code | N | 6 | Type d'opération (000000=achat, 200000=remboursement, 020000=annulation) |
 | 4 | Amount | N | 12 | Montant en unités mineures (centimes) |
+| 5 | Amount Settlement | N | 12 | Montant de règlement en unités mineures |
+| 6 | Amount Cardholder Billing | N | 12 | Montant facturation porteur en unités mineures |
 | 7 | Transmission Date/Time | N | 10 | MMDDHHmmss |
 | 11 | STAN | N | 6 | System Trace Audit Number |
 | 12 | Local Time | N | 6 | HHmmss |
 | 13 | Local Date | N | 4 | MMDD |
 | 14 | Expiration Date | N | 4 | YYMM – date d'expiration carte |
+| 18 | Merchant Type | N | 4 | Code type commerçant (MCC) – **obligatoire** |
 | 22 | POS Entry Mode | N | 3 | Mode saisie (051 = chip) |
 | 25 | POS Condition Code | N | 2 | Condition (00 = normal) |
 | 32 | Acquiring Institution Code | LLNUM | 11 | Code institution acquéreur |

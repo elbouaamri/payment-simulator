@@ -49,8 +49,9 @@ management:
 # Logging
 logging:
   level:
-    com.simulator: DEBUG
-    org.jpos: INFO
+    com.simulator: TRACE
+    org.jpos: DEBUG
+    org.springframework.web: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{correlationId}] %-5level %logger{36} - %msg%n"
 

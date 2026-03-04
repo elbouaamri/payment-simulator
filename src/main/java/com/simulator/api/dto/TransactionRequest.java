@@ -33,37 +33,128 @@ public class TransactionRequest {
     private boolean visaLike = false;
     private String merchantId;
 
+    @NotNull(message = "Amount Settlement (DE5) is required")
+    @Positive(message = "Amount Settlement must be positive")
+    private Long amountSettlement;
+
+    @NotNull(message = "Amount Cardholder Billing (DE6) is required")
+    @Positive(message = "Amount Cardholder Billing must be positive")
+    private Long amountCardholderBilling;
+
+    @NotBlank(message = "Merchant Type (DE18) is required")
+    @Size(min = 4, max = 4, message = "Merchant Type must be 4 digits")
+    private String merchantType;
+
     // --- Getters & Setters ---
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
+    public String getType() {
+        return type;
+    }
 
-    public Long getAmount() { return amount; }
-    public void setAmount(Long amount) { this.amount = amount; }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-    public String getCurrency() { return currency; }
-    public void setCurrency(String currency) { this.currency = currency; }
+    public Long getAmount() {
+        return amount;
+    }
 
-    public String getTerminalId() { return terminalId; }
-    public void setTerminalId(String terminalId) { this.terminalId = terminalId; }
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
 
-    public String getPan() { return pan; }
-    public void setPan(String pan) { this.pan = pan; }
+    public String getCurrency() {
+        return currency;
+    }
 
-    public String getExpiry() { return expiry; }
-    public void setExpiry(String expiry) { this.expiry = expiry; }
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
-    public String getStan() { return stan; }
-    public void setStan(String stan) { this.stan = stan; }
+    public String getTerminalId() {
+        return terminalId;
+    }
 
-    public String getRrn() { return rrn; }
-    public void setRrn(String rrn) { this.rrn = rrn; }
+    public void setTerminalId(String terminalId) {
+        this.terminalId = terminalId;
+    }
 
-    public Long getProfileId() { return profileId; }
-    public void setProfileId(Long profileId) { this.profileId = profileId; }
+    public String getPan() {
+        return pan;
+    }
 
-    public boolean isVisaLike() { return visaLike; }
-    public void setVisaLike(boolean visaLike) { this.visaLike = visaLike; }
+    public void setPan(String pan) {
+        this.pan = pan;
+    }
 
-    public String getMerchantId() { return merchantId; }
-    public void setMerchantId(String merchantId) { this.merchantId = merchantId; }
+    public String getExpiry() {
+        return expiry;
+    }
+
+    public void setExpiry(String expiry) {
+        this.expiry = expiry;
+    }
+
+    public String getStan() {
+        return stan;
+    }
+
+    public void setStan(String stan) {
+        this.stan = stan;
+    }
+
+    public String getRrn() {
+        return rrn;
+    }
+
+    public void setRrn(String rrn) {
+        this.rrn = rrn;
+    }
+
+    public Long getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
+    }
+
+    public boolean isVisaLike() {
+        return visaLike;
+    }
+
+    public void setVisaLike(boolean visaLike) {
+        this.visaLike = visaLike;
+    }
+
+    public String getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
+    }
+
+    public Long getAmountSettlement() {
+        return amountSettlement;
+    }
+
+    public void setAmountSettlement(Long amountSettlement) {
+        this.amountSettlement = amountSettlement;
+    }
+
+    public Long getAmountCardholderBilling() {
+        return amountCardholderBilling;
+    }
+
+    public void setAmountCardholderBilling(Long amountCardholderBilling) {
+        this.amountCardholderBilling = amountCardholderBilling;
+    }
+
+    public String getMerchantType() {
+        return merchantType;
+    }
+
+    public void setMerchantType(String merchantType) {
+        this.merchantType = merchantType;
+    }
 }

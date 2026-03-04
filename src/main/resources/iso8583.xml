@@ -10,11 +10,14 @@
   <isofield id="2"   length="19"  name="PAN"                    class="org.jpos.iso.IFA_LLNUM"/>
   <isofield id="3"   length="6"   name="Processing Code"        class="org.jpos.iso.IFA_NUMERIC"/>
   <isofield id="4"   length="12"  name="Amount"                 class="org.jpos.iso.IFA_NUMERIC"/>
+  <isofield id="5"   length="12"  name="Amount Settlement"      class="org.jpos.iso.IFA_NUMERIC"/>
+  <isofield id="6"   length="12"  name="Amount Cardholder Billing" class="org.jpos.iso.IFA_NUMERIC"/>
   <isofield id="7"   length="10"  name="Transmission Date Time" class="org.jpos.iso.IFA_NUMERIC"/>
   <isofield id="11"  length="6"   name="STAN"                   class="org.jpos.iso.IFA_NUMERIC"/>
   <isofield id="12"  length="6"   name="Local Time"             class="org.jpos.iso.IFA_NUMERIC"/>
   <isofield id="13"  length="4"   name="Local Date"             class="org.jpos.iso.IFA_NUMERIC"/>
   <isofield id="14"  length="4"   name="Expiration Date"        class="org.jpos.iso.IFA_NUMERIC"/>
+  <isofield id="18"  length="4"   name="Merchant Type"          class="org.jpos.iso.IFA_NUMERIC"/>
   <isofield id="22"  length="3"   name="POS Entry Mode"         class="org.jpos.iso.IFA_NUMERIC"/>
   <isofield id="23"  length="3"   name="Card Sequence Number"   class="org.jpos.iso.IFA_NUMERIC"/>
   <isofield id="25"  length="2"   name="POS Condition Code"     class="org.jpos.iso.IFA_NUMERIC"/>

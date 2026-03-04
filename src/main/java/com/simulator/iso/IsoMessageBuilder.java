@@ -30,7 +30,8 @@ public class IsoMessageBuilder {
     @PostConstruct
     public void init() throws ISOException {
         InputStream is = getClass().getClassLoader().getResourceAsStream("iso8583.xml");
-        if (is == null) throw new ISOException("iso8583.xml packager file not found on classpath");
+        if (is == null)
+            throw new ISOException("iso8583.xml packager file not found on classpath");
         packager = new GenericPackager(is);
         log.info("ISO 8583 GenericPackager loaded successfully");
     }
@@ -43,22 +44,28 @@ public class IsoMessageBuilder {
      * Build an authorization request (0200).
      */
     public ISOMsg buildAuthorizationRequest(String pan, String processingCode, long amount,
-                                            String expiry, String terminalId, String merchantId,
-                                            String stan, String rrn, String currency,
-                                            boolean visaLike) throws ISOException {
+            String expiry, String terminalId, String merchantId,
+            String stan, String rrn, String currency,
+            long amountSettlement, long amountCardholderBilling,
+            String merchantType,
+            boolean visaLike) throws ISOException {
         String mti = visaLike ? "0100" : "0200";
-        return buildRequest(mti, pan, processingCode, amount, expiry, terminalId, merchantId, stan, rrn, currency);
+        return buildRequest(mti, pan, processingCode, amount, expiry, terminalId, merchantId, stan, rrn, currency,
+                amountSettlement, amountCardholderBilling, merchantType);
     }
 
     /**
      * Build a reversal request (0400).
      */
     public ISOMsg buildReversalRequest(String pan, long amount, String expiry,
-                                       String terminalId, String merchantId,
-                                       String stan, String rrn, String currency,
-                                       boolean visaLike) throws ISOException {
+            String terminalId, String merchantId,
+            String stan, String rrn, String currency,
+            long amountSettlement, long amountCardholderBilling,
+            String merchantType,
+            boolean visaLike) throws ISOException {
         String mti = "0400";
-        return buildRequest(mti, pan, PC_PURCHASE, amount, expiry, terminalId, merchantId, stan, rrn, currency);
+        return buildRequest(mti, pan, PC_PURCHASE, amount, expiry, terminalId, merchantId, stan, rrn, currency,
+                amountSettlement, amountCardholderBilling, merchantType);
     }
 
     /**
@@ -102,8 +109,10 @@ public class IsoMessageBuilder {
     // --- Private helpers ---
 
     private ISOMsg buildRequest(String mti, String pan, String processingCode, long amount,
-                                String expiry, String terminalId, String merchantId,
-                                String stan, String rrn, String currency) throws ISOException {
+            String expiry, String terminalId, String merchantId,
+            String stan, String rrn, String currency,
+            long amountSettlement, long amountCardholderBilling,
+            String merchantType) throws ISOException {
         ISOMsg msg = new ISOMsg();
         msg.setPackager(packager);
         msg.setMTI(mti);
@@ -111,6 +120,8 @@ public class IsoMessageBuilder {
         msg.set(PAN, pan);
         msg.set(PROCESSING_CODE, processingCode);
         msg.set(AMOUNT, String.format("%012d", amount));
+        msg.set(AMOUNT_SETTLEMENT, String.format("%012d", amountSettlement));
+        msg.set(AMOUNT_CARDHOLDER_BILL, String.format("%012d", amountCardholderBilling));
 
         LocalDateTime now = LocalDateTime.now();
         msg.set(TRANSMISSION_DT, now.format(DateTimeFormatter.ofPattern("MMddHHmmss")));
@@ -141,6 +152,9 @@ public class IsoMessageBuilder {
         }
         msg.set(POS_ENTRY_MODE, "051"); // chip
         msg.set(POS_CONDITION, "00");
+        if (merchantType != null) {
+            msg.set(MERCHANT_TYPE, merchantType);
+        }
 
         return msg;
     }

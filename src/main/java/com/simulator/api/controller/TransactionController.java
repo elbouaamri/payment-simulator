@@ -30,7 +30,7 @@ public class TransactionController {
     private final TransactionLogRepository txLogRepo;
 
     public TransactionController(TransactionService transactionService,
-                                 TransactionLogRepository txLogRepo) {
+            TransactionLogRepository txLogRepo) {
         this.transactionService = transactionService;
         this.txLogRepo = txLogRepo;
     }
@@ -39,7 +39,8 @@ public class TransactionController {
      * POST /api/v1/transactions/authorize – Authorization (MTI 0200/0100)
      */
     @PostMapping("/authorize")
-    public ResponseEntity<TransactionResponse> authorize(@Valid @RequestBody TransactionRequest request) throws Exception {
+    public ResponseEntity<TransactionResponse> authorize(@Valid @RequestBody TransactionRequest request)
+            throws Exception {
         request.setType("AUTHORIZE");
         return ResponseEntity.ok(transactionService.process(request));
     }
@@ -66,7 +67,8 @@ public class TransactionController {
      * POST /api/v1/transactions/reversal – Reversal (MTI 0400)
      */
     @PostMapping("/reversal")
-    public ResponseEntity<TransactionResponse> reversal(@Valid @RequestBody TransactionRequest request) throws Exception {
+    public ResponseEntity<TransactionResponse> reversal(@Valid @RequestBody TransactionRequest request)
+            throws Exception {
         request.setType("REVERSAL");
         return ResponseEntity.ok(transactionService.process(request));
     }
@@ -86,10 +88,10 @@ public class TransactionController {
      */
     @GetMapping
     public ResponseEntity<List<TransactionLog>> list(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to,
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) String terminalId) {
+            @RequestParam(name = "from", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+            @RequestParam(name = "to", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to,
+            @RequestParam(name = "status", required = false) String status,
+            @RequestParam(name = "terminalId", required = false) String terminalId) {
 
         List<TransactionLog> result = txLogRepo.findFiltered(from, to, status, terminalId);
         return ResponseEntity.ok(result);

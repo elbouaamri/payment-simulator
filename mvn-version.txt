@@ -1,0 +1,5 @@
+﻿Apache Maven 3.8.6 (84538c9988a25aec085021c365c560670ad80f63)
+Maven home: C:\apache-maven-3.8.6
+Java version: 1.7.0_80, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk1.7.0_80\jre
+Default locale: fr_FR, platform encoding: Cp1252
+OS name: "windows 8.1", version: "6.3", arch: "amd64", family: "windows"
